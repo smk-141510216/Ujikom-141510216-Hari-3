@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-primary">
-                <div class="panel-heading"><center>Indewk Tunjangan Pegawai</center></div>
+                <div class="panel-heading"><center>Index Tunjangan Pegawai</center></div>
 
                 <div class="panel-body">
                     <table class="table"d border="2">

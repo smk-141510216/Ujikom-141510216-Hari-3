@@ -15,7 +15,6 @@
                             <label for="kode_tunjangan" class="col-md-4 control-label">Kode Tunjangan</label>
                             <div class="col-md-6">
                             <div class="form-group {{$errors->has('kode_tunjangan') ? 'has-errors':'message'}}" >
-                             <div class="form-group {{$errors->has('kode_tunjangan') ? 'has-errors':'message'}}" >
                                 <input id="kode_tunjangan" type="text" class="form-control" name="kode_tunjangan" value="{{ $tunjangan->kode_tunjangan}}"  autofocus>
                             @if($errors->has('kode_tunjangan'))
                                 <span class="help-block">

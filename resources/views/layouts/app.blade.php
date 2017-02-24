@@ -120,8 +120,7 @@
                      <li><a href="{{ url('/tunjangan_pegawai/create') }}">Tambah Tunjangan Pegawai  </a></li>
                      <li><a href="{{ url('/tunjangan_pegawai')}}">Index Tunjangan Pegawai   </a></li></ul>
 
-
-
+                     
 
                     
 

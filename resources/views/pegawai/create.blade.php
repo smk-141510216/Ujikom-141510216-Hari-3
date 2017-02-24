@@ -10,11 +10,11 @@
                         <form class="form-horizontal" role="form" method="POST" action="{{ route('pegawai.store') }}" enctype="multipart/form-data">
                             {{ csrf_field() }}
 
-                            <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
+                            
                                 <label for="name" class="col-md-4 control-label">Name</label>
-
                                 <div class="col-md-6">
-                                    <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" autofocus>
+                                <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
+                                    <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" autofocus required>
 
                                     @if ($errors->has('name'))
                                         <span class="help-block">
@@ -27,7 +27,7 @@
                                 <label for="name" class="col-md-4 control-label">Permission</label>
 
                                 <div class="col-md-6">
-                                    <select id="permission" type="text" class="form-control" name="permission">
+                                    <select id="permission" type="text" class="form-control" name="permission" required>
                                     <option value="">Pilih</option>
                                     <option value="Pegawai">Pegawai</option>
                                     <option value="HRD">HRD</option>
@@ -45,7 +45,7 @@
                                 <label for="email" class="col-md-4 control-label">E-Mail Address</label>
 
                                 <div class="col-md-6">
-                                    <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}">
+                                    <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
 
                                     @if ($errors->has('email'))
                                         <span class="help-block">
@@ -59,7 +59,7 @@
                                 <label for="password" class="col-md-4 control-label">Password</label>
 
                                 <div class="col-md-6">
-                                    <input id="password" type="password" class="form-control" name="password">
+                                    <input id="password" type="password" class="form-control" name="password" required>
 
                                     @if ($errors->has('password'))
                                         <span class="help-block">
@@ -73,7 +73,7 @@
                                 <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
 
                                 <div class="col-md-6">
-                                    <input id="password-confirm" type="password" class="form-control" name="password_confirmation">
+                                    <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
 
                                 </div>
                             </div>
@@ -92,7 +92,7 @@
                     <div class="form-group{{ $errors->has('nip') ? ' has-error' : '' }}">
                             <label for="nip" class="col-md-3 control-label">NIP</label>
                             <div class="col-md-6">
-                                <input id="nip" type="text" class="form-control" name="nip" ">
+                                <input id="nip" type="text" class="form-control" name="nip"  required>
 
                                 @if ($errors->has('nip'))
                                     <span class="help-block">
@@ -104,37 +104,37 @@
                         </td>
                     </tr>
                     <tr><td>
-                        <div class="form-group{{ $errors->has('jabatan_id') ? ' has-error' : '' }}">
-                            <label for="jabatan_id" class="col-md-3 control-label">Jabatan</label>
+                        <div class="form-group{{ $errors->has('id_jabatan') ? ' has-error' : '' }}">
+                            <label for="id_jabatan" class="col-md-3 control-label">Jabatan</label>
                             <div class="col-md-6">
-                                <select id="jabatan_id" type="text" class="form-control" name="jabatan_id" ">
+                                <select id="id_jabatan" type="text" class="form-control" name="id_jabatan" required>
                                     <option value="">Pilih</option>
                                     @foreach($jabatan as $data)
                                     <option value="{!! $data->id !!}">{!! $data->nama_jabatan !!}</option>
                                     @endforeach
                                 </select>
 
-                                @if ($errors->has('jabatan_id'))
+                                @if ($errors->has('id_jabatan'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('jabatan_id') }}</strong>
+                                        <strong>{{ $errors->first('id_jabatan') }}</strong>
                                     </span>
                                 @endif
                             </div>
                         </div>
                     </td></tr>
                     <tr><td>
-                        <div class="form-group{{ $errors->has('golongan_id') ? ' has-error' : '' }}">
-                            <label for="golongan_id" class="col-md-3 control-label">Golongan</label>
+                        <div class="form-group{{ $errors->has('id_golongan') ? ' has-error' : '' }}">
+                            <label for="id_golongan" class="col-md-3 control-label">Golongan</label>
                             <div class="col-md-6">
-                                <select id="golongan_id" type="text" class="form-control" name="golongan_id" >
+                                <select id="id_golongan" type="text" class="form-control" name="id_golongan" required >
                                 <option value="">Pilih</option>
                                     @foreach($golongan as $data)
                                     <option value="{!! $data->id !!}">{!! $data->nama_golongan !!}</option>
                                     @endforeach  
                                     </select>
-                                @if ($errors->has('golongan_id'))
+                                @if ($errors->has('id_golongan'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('golongan_id') }}</strong>
+                                        <strong>{{ $errors->first('id_golongan') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -142,24 +142,25 @@
                     </td></tr>
                     <tr><td>
                         <div class="form-group{{ $errors->has('foto') ? ' has-error' : '' }}">
-                            <label for="foto" class="col-md-3 control-label">Foto</label>
-                            <div class="col-md-6">
-                                <input id="foto" type="file" name="foto" >
-                            
-                                @if ($errors->has('foto'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('foto') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
+                        <label for="foto" class="col-md-3 control-label">Foto</label>
+
+                        <div class="col-md-6">
+                            <input type="file" id="foto" class="form-control" required>
+
+                            @if ($errors->has('foto'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('foto') }}</strong>
+                                </span>
+                            @endif
                         </div>
+                    </div>
                     </td></tr>
                         </table>
                     </div>
                     <br>
                         <div class="form-group">
-                            <div class="col-md-6 col-md-offset-8">
-                                <button type="submit" class="btn btn-primary">
+                            <div class="col-md-3 col-md-offset-8">
+                                <button type="submit" class="btn btn-success">
                                     Simpan
                                 </button>
                             </div>

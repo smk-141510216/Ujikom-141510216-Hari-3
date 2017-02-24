@@ -43,7 +43,8 @@ class pegawaicontroller extends Controller
         //
         $golongan = golongan::all();
         $jabatan = jabatan::all();
-        return view('pegawai.create',compact('golongan','jabatan'));
+        $user=User::all();
+        return view('pegawai.create',compact('golongan','jabatan','user'));
     }
 
     /**
@@ -55,66 +56,30 @@ class pegawaicontroller extends Controller
     public function store(Request $request)
     {
 
-        $data = Request::all();
-$rules = [  'name' => 'required|max:255',
-            'nip'  => 'required|numeric|min:3|unique:pegawais',
-            'email' => 'required|email|max:255|unique:users',
-            'permission' => 'required|max:255',
-            'password' => 'required|min:6|confirmed',
-            'id_jabatan' => 'required',
-            'id_golongan' => 'required',
-            'foto' => 'required'];
-        $sms = ['nip.required' => 'Harus Diisi',
-                'nip.unique' => 'Data Sudah Ada',
-                'nip.numeric' => 'Harus Angka',
-                'email.required' => 'Harus Diisi',
-                'email.unque' => 'Data Sudah Ada',
-                'id_jabatan.required' => 'Harus Diisi',
-                'id_golongan.required' => 'Harus Diisi',
-                'foto.required' => 'Harus Diisi',
-                'email.email' => 'Harus Format Email',
-                'name.required' => 'Harus Diisi',
-                'password.min' => 'Sandi harus minimal 6 karakter',
-                'nip.min' => 'nip harus minimal 3.',
-                ];
-        $valid=Validator::make(Input::all(),$rules,$sms);
-        if ($valid->fails()) {
+        $akun=new User ;
+         $akun->name=Input::get('name');
+         $akun->email=Input::get('email');
+         $akun->password=bcrypt(Input::get('password'));
+         $akun->permission=Input::get('permission');
+         $akun->save();
 
-            
-            return redirect('pegawai/create')
-            ->withErrors($valid)
-            ->withInput();
-        }
-        else
-        {
-     
-        $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'permission' => $data['permission'],
-            'password' => bcrypt($data['password']),
-        ]);
-
-        
         $file = Input::file('foto');
         $destinationPath = public_path().'/assets/image/';
-        // $filename = $file->getClientOriginalName();
-        $filename = $user->name.'_'.$file->getClientOriginalName();
+        $filename = $file->getClientOriginalName();
         $uploadSuccess = $file->move($destinationPath, $filename);
-        $foto = $filename;
 
-        pegawai::create([
-            'nip' => $data['nip'],
-            'id_user' => $user->id,
-            'id_jabatan' => $data['id_jabatan'],
-            'id_golongan' => $data['id_golongan'],
-            'foto' => $foto,
-            ]);
-           
-            }      
-        return redirect('/pegawai');
-
-        /////
+        if(Input::hasFile('foto')){
+         $pegawai=new pegawai ;
+         $pegawai->nip=Input::get('nip');
+         $pegawai->foto = $filename;
+         //$pegawai->foto=Input::get('foto');
+         $pegawai->id_jabatan=Input::get('id_jabatan');
+         $pegawai->id_golongan=Input::get('id_golongan');
+         $pegawai->id_user=$akun->id;
+         $pegawai->save();
+         
+    }        
+        return redirect('pegawai');
 
 }
     /**
@@ -138,7 +103,7 @@ $rules = [  'name' => 'required|max:255',
     public function edit($id)
     {
         //
-  
+        $user=User::where('id',$id)->with('user')->first();
         $data = pegawai::where('id',$id)->with('golongan','jabatan','User')->first();
         $jabatan = jabatan::all();
         $golongan = golongan::all();
@@ -155,79 +120,38 @@ $rules = [  'name' => 'required|max:255',
     public function update(Request $request, $id)
     {
         //
-        $gawai = pegawai::where('id', $id)->first();
-        $emal = User::where('id', $gawai->id_user)->first()->email;
-        $pass = User::where('id', $gawai->id_user)->first()->password;
+        
+        $pegawai = pegawai::where('id', $id)->first();
+        $emal = User::where('id', $pegawai->id_user)->first()->email;
+        $pass = User::where('id', $pegawai->id_user)->first()->password;
+        $name = User::where('id', $pegawai->id_user)->first()->name;
         $data = Request::all();
-        $validate = ([
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'permission' => 'required',
-            'password' => 'required|min:6',
-            'nip'=>'required|unique:pegawais',
-            'jabatan_id' => 'required',
-            'golongan_id' => 'required',
-            'foto' => 'required',
-            ]);
-        if ($emal==$data['email']) {
-            $validate['email'] = '';
-            $data['email'] = $emal;
-        }
-        if ($data['password']==null) {
-            $validate['password'] = '';
-            $data['password'] = $pass;
-        }
-        else{
-            $validate['password'] = 'min:6';
-            $data['password'] = bcrypt($data['password']);
-        }
-        if (Input::file() == null)
-        {
-            $validate['foto'] = '';
-        }
-        if ($data['nip']==$gawai['nip'])
-        {
-            $validate['nip'] = '';
-        }
-        else{
-            $validate['nip'] = 'required|unique:pegawais';
-        }
-
-        $validation = Validator::make(Request::all(), $validate);
-
-        if ($validation->fails()) {
-            return redirect('pegawai/'.$id.'/edit')->withErrors($validation)->withInput();
-        }
-
-        $user = User::where('id', $gawai->id_user)->first()->update([
+        $user = User::where('id', $pegawai->id_user)->first()->update([
             'name' => $data['name'],
             'email' => $data['email'],
             'permission' => $data['permission'],
             'password' => $data['password'],
             ]);
-        $user = User::where('id', $gawai->id_user)->first();
-        
 
-        if (Input::file()==null)
-        {
-            $data['foto'] = $gawai->foto;
 
-        }
-        else
-        {
+        $user = User::where('id', $pegawai->id_user)->first();
             $file = Input::file('foto');
-            $destination_path = public_path().'/assets/foto';
+            $destination_path = public_path().'/assets/image';
             $filename = $user->name.'_'.$file->getClientOriginalName();
             $uploadSuccess = $file->move($destination_path,$filename);
             $data['foto'] = $filename;
-        }
 
+            
+        if(Input::hasFile('foto')){
+        
         pegawai::where('id', $id)->first()->update([
             'nip' => $data['nip'],
-            'jabatan_id' => $data['jabatan_id'],
-            'golongan_id' => $data['golongan_id'],
+            'id_jabatan' => $data['id_jabatan'],
+            'id_golongan' => $data['id_golongan'],
             'foto' => $data['foto'],
             ]);
+
+    }  
         return redirect('pegawai');
 
 
@@ -246,3 +170,4 @@ $rules = [  'name' => 'required|max:255',
         return redirect('pegawai');
     }
 }
+ 

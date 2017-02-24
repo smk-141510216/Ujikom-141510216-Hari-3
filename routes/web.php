@@ -25,3 +25,4 @@ Route::resource('/tunjangan','tunjangancontroller');
 Route::resource('/kategori_lembur','kategori_lemburcontroller');
 Route::resource('/lembur_pegawai','lembur_pegawaicontroller');
 Route::resource('/tunjangan_pegawai','tunjangan_pegawaicontroller');
+Route::resource('/penggajian','penggajiancontroller');

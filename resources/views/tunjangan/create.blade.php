@@ -22,7 +22,7 @@
                             @endif
                             </div>
                             </div>
-                        </div>
+                            </div>
 
                             <div class="form-group " >
                             <label for="name" class="col-md-4 control-label">Nama Golongan </label>
@@ -79,6 +79,7 @@
                             @endif
                             </div>
                             </div>
+                            </div>
                            
 
                            <div class="form-group">
@@ -91,6 +92,7 @@
                                     <strong>{{$errors->first('jumlah_anak')}}</strong>
                                 </span>
                             @endif
+                            </div>
                             </div>
                             </div>
                         
@@ -108,14 +110,15 @@
                             @endif
                             </div>
                             </div>
+                            </div>
                      
 
                         
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    Save
+                                <button type="submit" class="btn btn-success">
+                                    Simpan
                                 </button>
                             </div>
                         </div>

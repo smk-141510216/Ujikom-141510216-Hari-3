@@ -28,12 +28,24 @@ class kategori_lemburcontroller extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        //
-         $kategori_lembur=kategori_lembur::all();
-         $golongan=golongan::all();
-         $jabatan=jabatan::all();
-         return view('kategori_lembur.create',compact('golongan','jabatan','kategori_lembur'));
+    {   
+          $kategori_lembur=kategori_lembur::all();
+          $golongan=golongan::all();
+          $jabatan=jabatan::all();
+          $KL=kategori_lembur::where('id_jabatan',$kategori_lembur['id_jabatan'])->where('id_golongan',$kategori_lembur['id_golongan'])->first();
+          if (isset($KL)) 
+          {
+              # code...
+            $error_create=true;
+            $golongan=golongan::all();
+            $jabatan=jabatan::all();
+            return view('kategori_lembur.create',compact('KL','error_create','golongan','jabatan'));
+          }
+
+
+   
+       
+       //  return view('kategori_lembur.create',compact('golongan','jabatan','kategori_lembur'));
     }
 
     /**
@@ -59,7 +71,7 @@ class kategori_lemburcontroller extends Controller
 
          $validator=Validator::make(Input::all(),$rules,$message);
 
-        if ($validator->fails())
+        if ($validator->fails() )
          {
             # code...
 

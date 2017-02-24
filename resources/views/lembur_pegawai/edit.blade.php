@@ -29,6 +29,7 @@
                             @endif
                             </div>
                             </div>
+                            </div>
 
                             <div class="form-group">
                             <label for="name" class="col-md-4 control-label">Uang Kategori Lembur </label>
@@ -47,6 +48,7 @@
                             @endif
                             </div>
                             </div>
+                            </div>
 
                             <div class="form-group">
                             <label for="jumlah_jam" class="col-md-4 control-label">Jumlah Jam</label>
@@ -58,6 +60,7 @@
                                     <strong>{{$errors->first('jumlah_jam')}}</strong>
                                 </span>
                             @endif
+                            </div>
                             </div>
                             </div>
                           

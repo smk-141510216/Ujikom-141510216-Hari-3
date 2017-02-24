@@ -28,6 +28,7 @@
                             @endif
                             </div>
                             </div>
+                            </div>
 
                             <div class="form-group">
                             <label for="name" class="col-md-4 control-label">Kode Tunjangan</label>
@@ -45,6 +46,7 @@
                                     <strong>{{$errors->first('kode_tunjangan_id')}}</strong>
                                 </span>
                             @endif
+                            </div>
                             </div>
                             </div>
 

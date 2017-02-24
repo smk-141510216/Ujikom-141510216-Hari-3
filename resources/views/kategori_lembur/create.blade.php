@@ -80,8 +80,8 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    Save
+                                <button type="submit" class="btn btn-success">
+                                    Simpan
                                 </button>
                             </div>
                         </div>
